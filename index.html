@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Um convite especial 💗</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+           background: linear-gradient(
+    135deg,
+    #b3002d 0%,
+    #e8175d 45%,
+    #ff8fbd 100%
+);
+            color: #bd2866;
+        }
+
+        .coracoes {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .coracao {
+            position: absolute;
+            bottom: -40px;
+            color: #ed438b;
+            animation: flutuar linear infinite;
+            opacity: 0.65;
+        }
+
+        @keyframes flutuar {
+            from {
+                transform: translateY(0) rotate(0);
+            }
+            to {
+                transform: translateY(-110vh) rotate(30deg);
+            }
+        }
+
+        .container {
+            width: min(90%, 480px);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: white;
+            font-size: clamp(26px, 6vw, 38px);
+            margin-bottom: 25px;
+            text-shadow:
+                -2px -2px #bd2866,
+                 2px -2px #bd2866,
+                -2px  2px #bd2866,
+                 2px  2px #bd2866;
+        }
+
+        .cartao {
+            background: #fffdfd;
+            border-radius: 25px;
+            padding: 35px 20px;
+            box-shadow: 0 12px 35px #a72a5b30;
+        }
+
+        .emoji {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        h2 {
+            font-size: 26px;
+            margin-bottom: 12px;
+        }
+
+        .subtitulo {
+            color: #927482;
+            margin-bottom: 25px;
+        }
+
+        .area-botoes {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 18px;
+            min-height: 60px;
+        }
+
+        button {
+            border: none;
+            border-radius: 30px;
+            padding: 14px 28px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #sim {
+            background: #ec287c;
+            color: white;
+            box-shadow: 0 5px 0 #c51c63;
+            transition: transform 0.2s;
+        }
+
+        #sim:hover {
+            transform: scale(1.07);
+        }
+
+        #nao {
+            background: #f0e7ec;
+            color: #826b78;
+            box-shadow: 0 4px 0 #ddcbd5;
+            white-space: nowrap;
+            z-index: 5;
+        }
+
+        #nao.fugindo {
+            position: fixed;
+            transition: left 0.12s ease, top 0.12s ease;
+        }
+
+        .mensagem-final {
+            display: none;
+        }
+
+        .mensagem-final p {
+            color: #806576;
+            line-height: 1.7;
+            margin-top: 15px;
+        }
+
+        .mostrar {
+            display: block;
+        }
+
+        .esconder {
+            display: none !important;
+        }
+
+        @media (max-width: 360px) {
+            .cartao {
+                padding: 28px 12px;
+            }
+
+            button {
+                padding: 12px 20px;
+                font-size: 15px;
+            }
+
+            .area-botoes {
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="coracoes" id="coracoes"></div>
+
+    <main class="container">
+
+        <h1>Tenho uma pergunta<br>pra você...</h1>
+
+        <section class="cartao" id="convite">
+
+            <div class="emoji">💘</div>
+
+            <h2>Quer sair comigo?</h2>
+
+            <p class="subtitulo">
+                Pensa direitinho... 🥹
+            </p>
+
+            <div class="area-botoes" id="areaBotoes">
+
+                <button id="sim" type="button">
+                    Sim! 😍
+                </button>
+
+                <button id="nao" type="button">
+                    Não 🙈
+                </button>
+
+            </div>
+
+        </section>
+
+        <section class="cartao mensagem-final" id="final">
+
+            <div class="emoji">Sim</div>
+
+            <h2>Eu sabia! 😍</h2>
+
+            <p>
+                Você acabou de deixar meu dia muito melhor!<br>
+                Agora só falta combinar nosso encontro. 💌
+            </p>
+
+        </section>
+
+    </main>
+
+    <script>
+        // Seleciona os elementos da página
+        const botaoSim = document.getElementById("sim");
+        const botaoNao = document.getElementById("nao");
+        const convite = document.getElementById("convite");
+        const mensagemFinal = document.getElementById("final");
+
+        // Faz o botão "Não" fugir
+        function fugir() {
+            const margem = 10;
+
+            const largura = botaoNao.offsetWidth;
+            const altura = botaoNao.offsetHeight;
+
+            const maxX = window.innerWidth - largura - margem;
+            const maxY = window.innerHeight - altura - margem;
+
+            const x = margem + Math.random() *
+                Math.max(0, maxX - margem);
+
+            const y = margem + Math.random() *
+                Math.max(0, maxY - margem);
+
+            botaoNao.classList.add("fugindo");
+
+            botaoNao.style.left = `${x}px`;
+            botaoNao.style.top = `${y}px`;
+        }
+
+        // Computador: foge quando o cursor chega perto
+        botaoNao.addEventListener("pointerenter", fugir);
+
+        // Celular: foge quando a pessoa tenta tocar
+        botaoNao.addEventListener("pointerdown", function(event) {
+            event.preventDefault();
+            fugir();
+        });
+
+        // Impede que o botão "Não" seja selecionado
+        botaoNao.addEventListener("click", function(event) {
+            event.preventDefault();
+            fugir();
+        });
+
+        // Se a janela mudar de tamanho, reposiciona o botão
+        window.addEventListener("resize", function() {
+            if (botaoNao.classList.contains("fugindo")) {
+                fugir();
+            }
+        });
+
+        // Quando clicar em "Sim"
+        botaoSim.addEventListener("click", function() {
+            convite.classList.add("esconder");
+            mensagemFinal.classList.add("mostrar");
+            botaoNao.classList.add("esconder");
+        });
+
+        // Cria os corações animados no fundo
+        const areaCoracoes = document.getElementById("coracoes");
+
+        for (let i = 0; i < 20; i++) {
+            const coracao = document.createElement("span");
+
+            coracao.className = "coracao";
+            coracao.textContent = Math.random() > 0.5 ? "♥" : "♡";
+
+            coracao.style.left = Math.random() * 100 + "%";
+            coracao.style.fontSize =
+                (15 + Math.random() * 20) + "px";
+
+            coracao.style.animationDuration =
+                (6 + Math.random() * 8) + "s";
+
+            coracao.style.animationDelay =
+                (-Math.random() * 12) + "s";
+
+            areaCoracoes.appendChild(coracao);
+        }
+    </script>
+
+</body>
+</html>
